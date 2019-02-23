@@ -68,3 +68,7 @@ Right now, the Repository is empty. We are still brainstorming for idea's, but H
 - there are a zillion site/programs that can assist with the graphics. Some example graphs: https://nl.pinterest.com/skippyshy/rpg-maker/?lp=true
 - Perhaps we can start creating in Java? If the VM is loaded, it can be played on most of the platforms. Only mobile need some adjustment, but there will be improvements, new insights and. Also, I can create a sample class of chars, monsters, playground etc and all we have to do is change the classes if we want a different style. Display on screen can be made anyway we would like. 
 - but first: java Swing. Perhaps you can look at http://zetcode.com/tutorials/javagamestutorial/ for some basics?
+
+
+# RW 23/2/19
+Just for a try. Using Canvas in Html, Js
