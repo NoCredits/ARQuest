@@ -60,3 +60,11 @@ Right now, the Repository is empty. We are still brainstorming for idea's, but H
     - lots of tools available
 - multiplayer
     - using browserbased games makes it difficult to play using sharedmode. Serverbased is easier to accomplisch (Mysql - PHP-api). User creation etc
+
+# RW, 23/2/19:
+- Ok you have a point. Turned based is ok. I like your hotseat idea. Remember: turnbased implies every player has to wait on till it is his/her turn. So, no switching gear, run off etc, but only(?) social, inspecting or estethic moves can be made off-turn
+- tilebased squaregrid games are by miles the way to go. Easy to handle and accomplish. If you let the characters move by each square, things will be even more achievable. 
+- I would say, just start by a grid say 25x25, fill it in with some random walls, encounters, treasures (start by 1 type off wall, 1 type of treasure, 1 goals and 1 type of monster (get rid of the nasty goblins). Create some kind of charsheet (intellect, strength, defense, agility etc). Keep track of level and xp, add gear + bonusattributes. Create a simple ai for the monster (run random? follow the wall? attack on sight? run away?), let the dice do the math
+- there are a zillion site/programs that can assist with the graphics. Some example graphs: https://nl.pinterest.com/skippyshy/rpg-maker/?lp=true
+- Perhaps we can start creating in Java? If the VM is loaded, it can be played on most of the platforms. Only mobile need some adjustment, but there will be improvements, new insights and. Also, I can create a sample class of chars, monsters, playground etc and all we have to do is change the classes if we want a different style. Display on screen can be made anyway we would like. 
+- but first: java Swing. Perhaps you can look at http://zetcode.com/tutorials/javagamestutorial/ for some basics?
