@@ -1,0 +1,20 @@
+{
+    "race" 			: "",
+    "class" 		: "",
+    "name" 			: "",
+    "level" 		: 0	,
+    "experience"	: 0	,
+    "hitpoints"		: 0 ,
+    "strenght"		: 0	,
+    "stamina"		: 0	,
+    "intelligence"	: 0 ,
+    "agility"		: 0 ,
+
+    "mainhand"		: "",
+    "offhand"		: "",
+    
+    "inventory"		: [],
+    "gold"			: 0 
+
+}
+

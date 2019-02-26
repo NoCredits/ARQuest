@@ -1,0 +1,20 @@
+{
+    "race" 			: "Human",
+    "class" 		: "Warrior",
+    "name" 			: "Conan",
+    "level" 		: 3	,
+    "experience"	: 1982	,
+    "hitpoints"		: 2011 ,
+    "strenght"		: 100	,
+    "stamina"		: 100	,
+    "intelligence"	: 1 ,
+    "agility"		: 1 ,
+
+    "mainhand"		: "Twohanded sword",
+    "offhand"		: "",
+    
+    "inventory"		: ["picture of Red Sonja","bread"],
+    "gold"			: 10 
+
+}
+

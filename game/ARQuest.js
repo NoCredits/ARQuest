@@ -2,45 +2,10 @@ $( document ).ready(function() {
 	go();// Handler for .ready() called.
   });
 
-function Hero(txt,textdiv){
-	Hero.prototype.setWeapon=function(weapon){
-		this.obj.weapon=weapon;
-	}
-	Hero.prototype.getWeapon=function(){
-		return this.obj.weapon;
-	}
-
-	Hero.prototype.showWeapon = function(){
-		$("#weapon").html(this.obj.name+" strikes with a "+this.getWeapon());
-	}
-    this.obj=JSON.parse(txt);
-	this.textdiv=textdiv;
-    document.getElementById(this.textdiv).innerHTML = this.obj.name + ", " + this.obj.level+ ", " + this.obj.race;
-}
-
-function Warrior(txt) {
-	Hero.call(this,txt,"player1");
-	document.getElementById(this.textdiv).innerHTML += ","+ this.obj.weapon+"<br>Aye!";
-}
-
-function Healer(txt) {
-	Hero.call(this,txt,"player2");
-	document.getElementById(this.textdiv).innerHTML += ","+ this.obj.weapon+"<br>Good day to you!";
-}
 
 function go(){
 
-	Warrior.prototype = Object.create(Hero.prototype);
-	Healer.prototype = Object.create(Hero.prototype);
-
-	var txt = '{"name":"John", "age":30, "level":2,"race":"Dwarf","weapon":"axe"}';
-	let hero1 = new Warrior(txt);
-	var txt = '{"name":"Jane", "age":30, "level":7,"race":"Human","weapon":"dagger"}';
-	let hero2 = new Healer(txt);
-
-	hero2.setWeapon("Wand");
-	hero2.showWeapon();
-
+	createHeros();
 	
 	var lastTime = 0;
     var vendors = ['ms', 'moz', 'webkit', 'o'];
