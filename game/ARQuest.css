@@ -28,3 +28,15 @@
 	padding: 0;
 	width: 500px;
 }
+
+#player1 {
+	font-size: 1.0em;
+}
+
+#player2 {
+	font-size: 1.0em;
+}
+#weapon {
+	
+	font-size: 2em;
+}

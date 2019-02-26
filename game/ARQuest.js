@@ -1,5 +1,13 @@
+$( document ).ready(function() {
+	go();// Handler for .ready() called.
+  });
 
-    var lastTime = 0;
+
+function go(){
+
+	createHeros();
+	
+	var lastTime = 0;
     var vendors = ['ms', 'moz', 'webkit', 'o'];
     for(var x = 0; x < vendors.length && !window.requestAnimationFrame; ++x) {
         window.requestAnimationFrame = window[vendors[x]+'RequestAnimationFrame'];
@@ -223,5 +231,4 @@
 	
 	canvas.addEventListener("touchstart", tap);
 	canvas.addEventListener("mousedown", tap);
-
-
+}
