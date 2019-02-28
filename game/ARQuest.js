@@ -6,6 +6,7 @@ $( document ).ready(function() {
 function go(){
 
 	createHeros();
+	board();
 	
 	var lastTime = 0;
     var vendors = ['ms', 'moz', 'webkit', 'o'];
