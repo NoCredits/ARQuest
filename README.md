@@ -72,3 +72,7 @@ Right now, the Repository is empty. We are still brainstorming for idea's, but H
 
 # RW 23/2/19
 Just for a try. Using Canvas in Html, Js
+
+# RW 28/2/19
+hero class and board.js created
+Using json as data
