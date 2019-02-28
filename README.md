@@ -44,8 +44,12 @@ I think it's okay to move+move though?
 
 **Monsters** abide by the same rules as players (do monsters also have classes? Or just archtypes? Maybe only "hero"-monsters have classes?)
 
+**fighting**
 Agreed on **range**; you need to touch base to fight in melee (diagonal/corner-corner touch allowed?).
 If you move through a figure that is in melee, then you risk getting hit?
+Are there weapons that can reach further (e.g. spears or halberds) and attack 1 square away?
+Can you shoot arrows/magic through friendlies? (do you risk friendly-fire?)
+How do we determine line-of-sight for shooting? (especially in corner situations)
 
 **Traps**.
 If you step in a trap, then you lose the rest of your turn? Or just lose the rest of the move you were executing?
@@ -54,5 +58,6 @@ I like the idea of having different kinds of traps (and not necessarily the one 
 Simple **classes** for simplicity? Maybe even just the 4 basic AD&D classes? (fighter, thief, cleric, mage)
 Everyone can do all skills but with different success chances? Or skills are locked for specific classes?
 
+**gear**
 Is there a weight/number-limited of loot you can carry?
 Does it cost an action to switch gear? To switch to another weapon? To switch from melee to ranged (and vice versa)?
