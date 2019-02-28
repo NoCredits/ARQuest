@@ -29,7 +29,7 @@ Combats
 Melee  are only allowed at touching squares to monsters
 Distance  damage is  only allowed at a distance. the distance depends on the kind of weapon or magic.
 
-when a player steps in a trap  the trap  stays visible. there are  different kinds of  traps. 
+when a player steps in a trap  the trap  stays visible. there are  different kind of  traps. 
 
 
 
