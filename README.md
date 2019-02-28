@@ -61,3 +61,7 @@ Everyone can do all skills but with different success chances? Or skills are loc
 **gear**
 Is there a weight/number-limited of loot you can carry?
 Does it cost an action to switch gear? To switch to another weapon? To switch from melee to ranged (and vice versa)?
+
+**meta-game**
+I think meta-game (i.e. some kind of map to travel around on) is a bit overkill for starters, right?
+But how do you actually get around between dungeons and maps? Let's start with a "go adventure/explore"-button and then see if other stuff comes on top later?
