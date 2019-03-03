@@ -9,10 +9,15 @@
         <link rel="stylesheet" type="text/css" href="ARQuest.css" />
     </head>
     <body>
-
+        <div class="hidden">
+            <script>
+        
+        
+            </script>
+        </div>
             <div id="boardContainer">
                     <div id="info"></div>
-                    <canvas id="boardCanvas"></canvas>
+                    <canvas id="boardCanvas"  width="450" height="450" style="border:1px solid #d3d3d3;"></canvas>
                 </div>
         <div id="hero"> </div>
 
@@ -25,7 +30,7 @@
             <h2>Hello dungeon</h2>
         </center>
   
-        <div id="gameContainer" >
+        <div id="gameContainer" style="display: none" >
             <div id="score">0</div>
 			<canvas id="gameCanvas"></canvas>
            </div>
