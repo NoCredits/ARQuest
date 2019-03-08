@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Tutorial: Hello Dojo!</title>
+</head>
+<body>
+    <h1 id="greeting">Hello</h1>
+    <!-- configure Dojo -->
+    <script>
+        // Instead of using data-dojo-config, we're creating a dojoConfig
+        // object *before* we load dojo.js; they're functionally identical,
+        // it's just easier to read this approach with a larger configuration.
+        var dojoConfig = {
+            async: true,
+            // This code registers the correct location of the "demo"
+            // package so we can load Dojo from the CDN whilst still
+            // being able to load local modules
+            packages: [{
+                name: "demo",
+                location: location.pathname.replace(/\/[^/]*$/, '') + '/demo'
+            }]
+        };
+    </script>
+    <!-- load Dojo -->
+    <script src="//ajax.googleapis.com/ajax/libs/dojo/1.10.4/dojo/dojo.js"></script>
+
+    <script>
+        require([
+            'demo/myModule'
+        ], function (myModule) {
+            myModule.setText('greeting', 'Hello Dojo!');
+
+            setTimeout(function () {
+                myModule.restoreText('greeting');
+            }, 3000);
+        });
+    
+
+        let hamster = {
+  stomach: [],
+
+  eat(food) {
+    // assign to this.stomach instead of this.stomach.push
+    this.stomach = [...this.stomach,food];
+  }
+};
+
+let speedy = {
+   __proto__: hamster
+};
+
+let lazy = {
+  __proto__: hamster
+};
+
+// Speedy one found the food
+speedy.eat("apple");
+speedy.eat("orange");
+//alert( speedy.stomach ); // apple
+
+lazy.eat("banana");
+// Lazy one's stomach is empty
+//alert( lazy.stomach ); // <nothing>
+
+    class Item {
+        constructor (json) {
+            var obj=JSON.parse(json);
+            this.name=obj.name;
+            this.type=obj.type;  //"armor","weapon","treasure"
+        }
+        set name(name){
+            this._name=name;
+        }
+        get name(){
+            return this._name;
+        }
+        set type(type){
+            this._type=type;
+        }
+        get type(){
+            return this._type;
+        }
+    }
+
+    class Weapon  extends Item {
+        constructor (json) {
+            var myJson = JSON.parse(json); 
+            myJson.type = "weapon";
+            json = JSON.stringify(myJson);             
+            super(json);
+        }
+    }
+
+    class Creature{
+        constructor (json) {
+           var obj=JSON.parse(json);
+           this.hitpoints=obj.hitpoints;
+           this.inventory=obj.inventory
+        }
+        set hitpoints(hp){
+            this._hitpoints=hp;
+        }
+        get hitpoints(){
+            return this._hitpoints;
+        }        
+    }
+
+    class Hero extends Creature{
+        constructor (json) {
+            super(json);
+            var obj=JSON.parse(json);
+           // if( obj.hasOwnProperty('race'))  this.race=obj.race; else this.race="unknown";
+           this.race=obj.race;
+        }
+
+        set race(race){
+            this._race=race;
+        }
+
+        get race(){
+            return this._race;
+        }
+    }
+
+    class Human extends Hero{
+        constructor (json) {
+            var myJson = JSON.parse(json); 
+            myJson.race = "human";
+            json = JSON.stringify(myJson); 
+            super(json);
+            this.weapon= new Weapon('{"name":"the Destroyer"}');
+            //var obj=JSON.parse(json);
+           // if( obj.hasOwnProperty('race'))  this.race=obj.race; else this.race="unknown";
+           //this.race=obj.race;
+        }
+    }
+    var hero=new Human('{"hitpoints":100}');
+    var hero2=new Hero('{"race":"dwarf","hitpoints":150}');
+
+    var item=hero.weapon;
+    alert (hero.hitpoints+" "+hero.race+" "+item.name+" "+hero.weapon.type);
+
+    </script>
+
+
+</body>
+</html>
