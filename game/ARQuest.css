@@ -13,7 +13,7 @@
 	position: relative;
 	background-image: url("images/aback.gif");
 	background-size: 100%;
-	width: 500px;
+	width: 450px;
 	height: auto;
 	margin: 0 auto;
 	padding-top: 24px;
@@ -26,7 +26,11 @@
 #gameCanvas canvas {
 	margin: 0;
 	padding: 0;
-	width: 500px;
+	width: 450px;
+}
+
+#hero {
+	font-size: 1.4em;
 }
 
 #player1 {

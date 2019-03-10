@@ -1,3 +1,4 @@
+var TO_RADIANS = Math.PI/180; 
 
 function create2DBoard(rows,columns) {
     /* creates
@@ -26,14 +27,44 @@ function create2DBoard(rows,columns) {
     return arr;
 }
   
-  
+
+function checkReady(){
+    var ready=false;
+    if (floorImg.complete && wallImg.complete) ready=true;
+    return ready;
+}
 
 
-function board(){
-    var board=create2DBoard(25,25);
+function drawTile(ctx){
+    ctx.save();
+    ctx.rotate(90*TO_RADIANS);
+    ctx.drawImage(wallImg, i, j,50,10);    
+    ctx.restore();
 
-    canvas = $('#boardCanvas');
-	canvas.width = 500;
-    canvas.height = 400;
-    $('#info').html("tile[0][0] contains: <br>tile:"+board[0][0].tile+" animation:"+board[0][0].animation+" visible: "+board[0][0].visible);
+}
+var ro=90;
+function updateBoard(){
+
+    if (checkReady){
+        var c = document.getElementById("gameCanvas");
+        var ctx = c.getContext("2d");
+        console.log(checkReady());
+        ctx.clearRect(0, 0, c.width, c.height);
+        for (i=0;i<7;i++){
+            for (j=0;j<7;j++){
+                ctx.drawImage(floorImg, i*50+50, j*50+50,50,50);    
+                if (Math.floor(Math.random() * 10)>5) {
+                      ctx.drawImage(wallImg, i*50+50, j*50+50,50,10);    
+                      ctx.restore();
+                } 
+            }
+        }
+    }
+}
+
+function setUpBoard(){
+
+    wallImg.src = "images/wall.png";
+    floorImg.src = "images/floor.png";
+
 }
