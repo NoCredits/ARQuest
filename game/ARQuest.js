@@ -1,30 +1,29 @@
+var board;
+var myVar;
+var wallImg = new Image();	
+var floorImg = new Image();	
+
 $( document ).ready(function() {
 
 	createHeros();
-	//board();
+	board=create2DBoard(25,25);
 
-	go();// Handler for .ready() called.
+	go();
   });
 
 
 function go(){
 
-//	createHeros();
-//	board();
-		
+	setUpBoard();
 
 	function gameLoop () {
-		board();
-	
+		updateBoard();
 	}
 	
 	
 	function tap (e) {
 	
-		var i,
-			loc = {},
-			dist,
-			antrasToDestroy = [];
+		var loc = {};
 			pos = getElementPosition(canvas),
 			tapX = e.targetTouches ? e.targetTouches[0].pageX : e.pageX,
 			tapY = e.targetTouches ? e.targetTouches[0].pageY : e.pageY,
@@ -35,14 +34,11 @@ function go(){
 			
 	}
 	
-	// Get canvas
 	canvas = document.getElementById("gameCanvas");
-	canvas.width = 500;
-	canvas.height = 400;
+	canvas.width = 450;
+	canvas.height = 450;
+
 	
-	//gameLoop();
-	
-	canvas.addEventListener("touchstart", tap);
-	canvas.addEventListener("mousedown", tap);
-	setInterval(gameLoop, 33); 	
+	myVar = setInterval(gameLoop, 1000);
+
 }
