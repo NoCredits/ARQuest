@@ -1,12 +1,16 @@
 var board;
 var myVar;
-var wallImg = new Image();	
+var wallNorth = new Image();	
+var wallEast = new Image();	
+var wallSouth = new Image();	
+var wallWest = new Image();	
+
 var floorImg = new Image();	
 
 $( document ).ready(function() {
 
 	createHeros();
-	board=create2DBoard(25,25);
+	playArea=create2DBoard(7,7);
 
 	go();
   });
