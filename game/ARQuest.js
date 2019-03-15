@@ -1,16 +1,25 @@
 var board;
+var gridSizeX=25;
+var gridSizeY=25;
+var gridStartX=4;
+var gridStartY=4;
+var tileSizeX=50;
+var tileSizeY=50;
+
+
 var myVar;
 var wallNorth = new Image();	
 var wallEast = new Image();	
 var wallSouth = new Image();	
 var wallWest = new Image();	
+var heroImage = new Image();
 
 var floorImg = new Image();	
 
 $( document ).ready(function() {
 
 	createHeros();
-	playArea=create2DBoard(7,7);
+	playArea=create2DBoard(gridSizeX,gridSizeY);
 
 	go();
   });
@@ -43,6 +52,6 @@ function go(){
 	canvas.height = 450;
 
 	
-	myVar = setInterval(gameLoop, 1000);
+	myVar = setInterval(gameLoop, 33);
 
 }

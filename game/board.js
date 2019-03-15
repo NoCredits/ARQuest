@@ -1,4 +1,6 @@
 var TO_RADIANS = Math.PI/180; 
+var viewPortX=0;
+var viewPortY=0;
 
 class tile{
 
@@ -71,13 +73,14 @@ function create2DBoard(rows,columns) {
 
 function checkReady(){
     var ready=false;
-    if (floorImg.complete ) ready=true;
+    if (floorImg.complete && heroImage.complete) ready=true;
     return ready;
 }
 
 
 function drawTile(tile,ctx,xpos,ypos){
-    ctx.save();
+   
+//ctx.save();
     if (tile.tile==1)     ctx.drawImage(floorImg, xpos, ypos,50,50);    
     if (tile.north==1)     ctx.drawImage(wallNorth, xpos, ypos,50,50);    
     if (tile.east==1)     ctx.drawImage(wallEast, xpos, ypos,50,50);    
@@ -85,10 +88,15 @@ function drawTile(tile,ctx,xpos,ypos){
     if (tile.west==1)     ctx.drawImage(wallWest, xpos, ypos,50,50);    
 //    ctx.rotate(90*TO_RADIANS);
  //   ctx.drawImage(wallImg, i, j,50,10);    
-    ctx.restore();
+    //ctx.restore();
 
 }
 var ro=90;
+var vpX=0;
+var vpY=0;
+var heroesWay=0;
+var heroesAnimation=0;
+var animateLoop=0;
 function updateBoard(){
 
     if (checkReady){
@@ -97,12 +105,28 @@ function updateBoard(){
         ctx.clearRect(0,0,c.width,c.height)
         console.log(checkReady());
         ctx.clearRect(0, 0, c.width, c.height);
-        for (i=0;i<7;i++){
-            for (j=0;j<7;j++){
-                drawTile(playArea[i][j],ctx,i*50+50,j*50+50);
+        for (i=0;i<gridSizeX;i++){
+            for (j=0;j<gridSizeY;j++){
+                drawTile(playArea[i][j],ctx,i*tileSizeX-gridStartX*tileSizeX+viewPortX,j*tileSizeY-gridStartY*tileSizeY+viewPortY);
             }
         }
+        ctx.drawImage(heroImage,(heroesAnimation+3)*50,(heroesWay)*50,50,50, 200, 200,50,50);   
+        
     }
+    if (Math.floor(Math.random() * 55 +1)==1)  {vpX=1; vpY=0; heroesWay=1 } //right
+    if (Math.floor(Math.random() * 55 +1)==1)  {vpX=-1; vpY=0; heroesWay=2} //left
+    if (Math.floor(Math.random() * 55 +1)==1)  {vpX=0; vpY=1; heroesWay=3} //down
+    if (Math.floor(Math.random() * 55 +1)==1)  {vpX=0; vpY=-1; heroesWay=0} //up
+    if (animateLoop>5){
+         heroesAnimation--;
+         if (heroesAnimation<0) heroesAnimation=2;
+         animateLoop=0;
+    }
+    animateLoop++;
+    viewPortX+=vpX;
+    viewPortY+=vpY;
+   
+
 }
 
 function setUpBoard(){
@@ -112,5 +136,6 @@ function setUpBoard(){
     wallSouth.src = "images/wallsouth.png";
     wallWest.src = "images/wallwest.png";
     floorImg.src = "images/floor.png";
+    heroImage.src="images/heros.png";   
 
 }
