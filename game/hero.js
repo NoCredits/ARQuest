@@ -73,10 +73,23 @@ class Potion extends Item {
 class Creature{
     constructor (json) {
         var obj=JSON.parse(json);
+        if( !obj.hasOwnProperty('imgX')) obj.imgX=0;
+        if( !obj.hasOwnProperty('imgY')) obj.imgY=0;
+
         this.hitpoints=obj.hitpoints;
         this.class=obj.class;
         this.race=obj.race;
         this.name=obj.name;
+        this.imgX=obj.imgX;
+        this.imgY=obj.imgY;
+        this.posX=obj.posX;
+        this.posY=obj.posY;
+
+        this.incX=0;
+        this.incY=0;
+        this.moveCycle=0;
+        this.moveTo=NOWHERE;
+        this.imgAnimation=0;
 
     }
     set name(name){
@@ -115,11 +128,13 @@ class Creature{
 class Hero extends Creature{
     constructor (json) {
         var obj = JSON.parse(json); 
+
         json = JSON.stringify(obj);         
         super(json);
 
         this.mainHand=new Item("{}");
 
+        this.hasTurn=false;
         var obj=JSON.parse(json);
     }
 }
@@ -134,14 +149,18 @@ class Wizard extends Hero{
 
 function createHeros(){
 
-    var hero=new Wizard('{"race":"human","hitpoints":100,"name":"Gandalf the Grey"}');
-    hero.mainHand=new Sword('{"name":"the Destroyer"}');
 
-    var hero2=new Hero('{"race":"dwarf","hitpoints":150}');
+   
+    heroes.push(new Wizard('{"race":"human","hitpoints":100,"name":"Gandalf the Grey","imgX":0,"imgY":0,"posX":4,"posY":4}'));
 
-    var main=hero.mainHand;
+    heroes.push(new Wizard('{"race":"elf","hitpoints":110,"name":"Galandriel","imgX":3,"imgY":4,"posX":6,"posY":6}'));
     
-    $("#hero").html(hero.name+" ("+hero.race+") "+" strikes with  "+main.name+ " ("+main.type+") ");
+    heroes[0].mainHand=new Sword('{"name":"the Destroyer"}');
+    heroes[0].hasTurn=true;
+
+    var main=heroes[0].mainHand;
+    
+    $("#hero").html(heroes[0].name+" ("+heroes[0].race+") "+" strikes with  "+main.name+ " ("+main.type+") "+heroes[0].imgX+heroes[0].imgX);
 
 
 }

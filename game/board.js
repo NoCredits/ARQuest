@@ -1,6 +1,3 @@
-var TO_RADIANS = Math.PI/180; 
-var viewPortX=0;
-var viewPortY=0;
 
 class tile{
 
@@ -91,12 +88,14 @@ function drawTile(tile,ctx,xpos,ypos){
     //ctx.restore();
 
 }
-var ro=90;
 var vpX=0;
 var vpY=0;
 var heroesWay=0;
 var heroesAnimation=0;
 var animateLoop=0;
+var incX=0;
+var incY=0;
+var speed=3;
 function updateBoard(){
 
     if (checkReady){
@@ -110,21 +109,84 @@ function updateBoard(){
                 drawTile(playArea[i][j],ctx,i*tileSizeX-gridStartX*tileSizeX+viewPortX,j*tileSizeY-gridStartY*tileSizeY+viewPortY);
             }
         }
-        ctx.drawImage(heroImage,(heroesAnimation+3)*50,(heroesWay)*50,50,50, 200, 200,50,50);   
-        
+        //ctx.drawImage(heroImage,(heroesAnimation+3)*50,(heroesWay)*50,50,50, 200, 200,50,50);   
+        for (h=0;h<2;h++){
+        switch (heroes[h].moveTo){
+            case MOVENORTH :
+            heroes[h].incY-=speed;
+            if (heroes[h].hasTurn) viewPortY+=speed;
+            break;
+            case MOVEEAST :
+            heroes[h].incX+=speed;
+            if (heroes[h].hasTurn) viewPortX-=speed;
+            break;
+            case MOVESOUTH :
+            heroes[h].incY+=speed;
+            if (heroes[h].hasTurn) viewPortY-=speed;
+            break;
+            case MOVEWEST :
+            heroes[h].incX-=speed;
+            if (heroes[h].hasTurn) viewPortX+=speed;
+            break;
+        }
+
+        var canvasX=(heroes[h].posX-gridStartX)*tileSizeX+heroes[h].incX+viewPortX;
+        var canvasY=(heroes[h].posY-gridStartY)*tileSizeY+heroes[h].incY+viewPortY;
+
+        ctx.drawImage(heroImage,
+            (heroes[h].imgX+heroesAnimation+3)*50,(heroes[h].imgY+heroes[h].imgAnimation)*50,50,50, 
+            canvasX,canvasY,50,50
+            );       
     }
-    if (Math.floor(Math.random() * 55 +1)==1)  {vpX=1; vpY=0; heroesWay=1 } //right
-    if (Math.floor(Math.random() * 55 +1)==1)  {vpX=-1; vpY=0; heroesWay=2} //left
-    if (Math.floor(Math.random() * 55 +1)==1)  {vpX=0; vpY=1; heroesWay=3} //down
-    if (Math.floor(Math.random() * 55 +1)==1)  {vpX=0; vpY=-1; heroesWay=0} //up
+
+    }
     if (animateLoop>5){
          heroesAnimation--;
          if (heroesAnimation<0) heroesAnimation=2;
          animateLoop=0;
     }
     animateLoop++;
-    viewPortX+=vpX;
-    viewPortY+=vpY;
+
+    for (h=0;h<2;h++){
+
+        if (heroes[h].moveCycle>=50){
+            heroes[h].moveCycle=0;
+            viewPortX=0;
+            viewPortY=0;
+    
+            switch (heroes[h].moveTo){
+                case MOVENORTH :
+                heroes[h].posY--;
+                break;
+                case MOVEEAST :
+                heroes[h].posX++;
+                break;
+                case MOVESOUTH :
+                heroes[h].posY++;
+                break;
+                case MOVEWEST :
+                heroes[h].posX--;
+                break;         
+            }
+            if (heroes[h].hasTurn){
+                //center on hero
+                gridStartX=heroes[h].posX-4;
+                gridStartY=heroes[h].posY-4;
+            }
+
+            var r=Math.floor(Math.random() * 4) ;
+            if (r==0)  {heroes[h].moveTo=MOVEEAST;vpX=1; vpY=0; heroes[h].imgAnimation=IMGEAST } //right
+            if (r==1)  {heroes[h].moveTo=MOVEWEST;vpX=-1; vpY=0; heroes[h].imgAnimation=IMGWEST} //left
+            if (r==2)  {heroes[h].moveTo=MOVESOUTH;vpX=0; vpY=1; heroes[h].imgAnimation=IMGSOUTH} //down
+            if (r==3)  {heroes[h].moveTo=MOVENORTH;vpX=0; vpY=-1; heroes[h].imgAnimation=IMGNORTH} //up
+            heroes[h].incX=0;
+            heroes[h].incY=0;
+        }
+    } 
+       heroes[0].moveCycle+=speed;
+       heroes[1].moveCycle+=speed;
+    //viewPortX+=vpX;
+    //viewPortY+=vpY;
    
 
 }
@@ -136,6 +198,6 @@ function setUpBoard(){
     wallSouth.src = "images/wallsouth.png";
     wallWest.src = "images/wallwest.png";
     floorImg.src = "images/floor.png";
-    heroImage.src="images/heros.png";   
+    heroImage.src="images/heroes.png";   
 
 }

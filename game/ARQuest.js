@@ -1,10 +1,4 @@
 var board;
-var gridSizeX=25;
-var gridSizeY=25;
-var gridStartX=4;
-var gridStartY=4;
-var tileSizeX=50;
-var tileSizeY=50;
 
 
 var myVar;
