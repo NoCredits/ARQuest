@@ -173,12 +173,22 @@ function updateBoard(){
                 gridStartX=heroes[h].posX-4;
                 gridStartY=heroes[h].posY-4;
             }
-
+            heroes[h].moveTo=NOWHERE; 
             var r=Math.floor(Math.random() * 4) ;
-            if (r==0)  {heroes[h].moveTo=MOVEEAST;vpX=1; vpY=0; heroes[h].imgAnimation=IMGEAST } //right
-            if (r==1)  {heroes[h].moveTo=MOVEWEST;vpX=-1; vpY=0; heroes[h].imgAnimation=IMGWEST} //left
-            if (r==2)  {heroes[h].moveTo=MOVESOUTH;vpX=0; vpY=1; heroes[h].imgAnimation=IMGSOUTH} //down
-            if (r==3)  {heroes[h].moveTo=MOVENORTH;vpX=0; vpY=-1; heroes[h].imgAnimation=IMGNORTH} //up
+            if (r==0)  {
+                if (playArea[heroes[h].posX][heroes[h].posY].east==0)
+                    heroes[h].moveTo=MOVEEAST; heroes[h].imgAnimation=IMGEAST } //right
+            if (r==1)  {
+                if (playArea[heroes[h].posX][heroes[h].posY].west==0)
+                heroes[h].moveTo=MOVEWEST; heroes[h].imgAnimation=IMGWEST} //left
+            if (r==2)  {
+                if (playArea[heroes[h].posX][heroes[h].posY].south==0)
+                heroes[h].moveTo=MOVESOUTH;heroes[h].imgAnimation=IMGSOUTH} //down
+            if (r==3)  {
+                if (playArea[heroes[h].posX][heroes[h].posY].north==0)
+                heroes[h].moveTo=MOVENORTH; heroes[h].imgAnimation=IMGNORTH} //up
+
+
             heroes[h].incX=0;
             heroes[h].incY=0;
         }
