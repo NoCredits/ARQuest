@@ -21,3 +21,12 @@ var IMGNORTH=3;
 var IMGEAST=2;
 var IMGSOUTH=0;
 var IMGWEST=1;
+
+var wallNorth = new Image();	
+var wallEast = new Image();	
+var wallSouth = new Image();	
+var wallWest = new Image();	
+var heroImage = new Image();
+
+var floorImg = new Image();	
+

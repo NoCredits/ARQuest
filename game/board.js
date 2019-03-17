@@ -16,6 +16,7 @@ class tile{
         this.south=obj.south;
         this.west=obj.west;
         this.animation=obj.animation;
+        
     }
 
 }
@@ -53,7 +54,7 @@ function create2DBoard(rows,columns) {
              if (r==rows-1) {
                 arr[r][c].east=1;
              }
-           
+             arr[r][c].floorNo=Math.floor(Math.random() * 4);
              //some random walls
              if (Math.floor(Math.random() * 10 +1)==1)   arr[c][r].north=1;
              if (Math.floor(Math.random() * 10 +1)==2)   arr[c][r].east=1;
@@ -62,32 +63,11 @@ function create2DBoard(rows,columns) {
  
         }
     }        
-    arr=checkWalls(arr,rows,columns);
+  
     return arr;
 }
   
 
-function checkWalls (board,rows,columns){
-    //walls from both sides
-    this.arr=board;
-    for (var r=0;r<rows;r++) {
-        for (c=0;c<columns;c++){
-            if (arr[r][c].north==1 && c>0) {
-                arr[r][c-1].south=1;
-            } 
-            if (arr[r][c].east==1 && r<rows-1) {
-                arr[r+1][c].west=1;
-            } 
-            if (arr[r][c].south==1 && c<columns-1) {
-                arr[r][c+1].north=1;
-            } 
-            if (arr[r][c].west==1 && r>0) {
-                arr[r-1][c].east=1;
-            }
-        }
-    }
-    return arr;
-}
 function checkReady(){
     var ready=false;
     if (floorImg.complete && heroImage.complete) ready=true;
@@ -98,11 +78,12 @@ function checkReady(){
 function drawTile(tile,ctx,xpos,ypos){
    
 //ctx.save();
-    if (tile.tile==1)     ctx.drawImage(floorImg, xpos, ypos,50,50);    
-    if (tile.north==1)     ctx.drawImage(wallNorth, xpos, ypos-2,50,50);    
-    if (tile.east==1)     ctx.drawImage(wallEast, xpos+2, ypos,50,50);    
-    if (tile.south==1)     ctx.drawImage(wallSouth, xpos, ypos+3,50,50);    
-    if (tile.west==1)     ctx.drawImage(wallWest, xpos-3, ypos,50,50);    
+   
+    if (tile.tile==1)     ctx.drawImage(floorImg,tile.floorNo*50,0,50,50, xpos, ypos,50,50);    
+    if (tile.north==1)     ctx.drawImage(wallNorth, xpos, ypos,50,50);    
+    if (tile.east==1)     ctx.drawImage(wallEast, xpos, ypos,50,50);    
+    if (tile.south==1)     ctx.drawImage(wallSouth, xpos, ypos,50,50);    
+    if (tile.west==1)     ctx.drawImage(wallWest, xpos, ypos,50,50);    
 //    ctx.rotate(90*TO_RADIANS);
  //   ctx.drawImage(wallImg, i, j,50,10);    
     //ctx.restore();
@@ -130,7 +111,7 @@ function updateBoard(){
             }
         }
         //ctx.drawImage(heroImage,(heroesAnimation+3)*50,(heroesWay)*50,50,50, 200, 200,50,50);   
-        for (h=0;h<2;h++){
+        for (h=0;h<4;h++){
             switch (heroes[h].moveTo){
                 case MOVENORTH :
                 heroes[h].incY-=speed;
@@ -154,7 +135,7 @@ function updateBoard(){
             var canvasY=(heroes[h].posY-gridStartY)*tileSizeY+heroes[h].incY+viewPortY;
 
             ctx.drawImage(heroImage,
-                (heroes[h].imgX+heroesAnimation+3)*50,(heroes[h].imgY+heroes[h].imgAnimation)*50,50,50, 
+                (heroes[h].imgX+heroesAnimation)*50,(heroes[h].imgY+heroes[h].imgAnimation)*50,50,50, 
                 canvasX,canvasY,50,50
                 );       
          }
@@ -167,7 +148,7 @@ function updateBoard(){
     }
     animateLoop++;
 
-    for (h=0;h<2;h++){
+    for (h=0;h<4;h++){
 
         if (heroes[h].moveCycle>=50){
             heroes[h].moveCycle=0;
@@ -196,16 +177,17 @@ function updateBoard(){
             heroes[h].moveTo=NOWHERE; 
             var r=Math.floor(Math.random() * 4) ;
             if (r==0)  {
-                if (playArea[heroes[h].posX][heroes[h].posY].east==0)
+                if (heroes[h].posX<gridSizeX-1 && playArea[heroes[h].posX][heroes[h].posY].east==0 && playArea[heroes[h].posX+1][heroes[h].posY].west==0 )
+                    
                     heroes[h].moveTo=MOVEEAST; heroes[h].imgAnimation=IMGEAST } //right
             if (r==1)  {
-                if (playArea[heroes[h].posX][heroes[h].posY].west==0)
+                if (heroes[h].posX>0 && playArea[heroes[h].posX][heroes[h].posY].west==0 && playArea[heroes[h].posX-1][heroes[h].posY].east==0)
                 heroes[h].moveTo=MOVEWEST; heroes[h].imgAnimation=IMGWEST} //left
             if (r==2)  {
-                if (playArea[heroes[h].posX][heroes[h].posY].south==0)
+                if (heroes[h].posY<gridSizeY-1 && playArea[heroes[h].posX][heroes[h].posY].south==0  &&  playArea[heroes[h].posX][heroes[h].posY+1].north==0)
                 heroes[h].moveTo=MOVESOUTH;heroes[h].imgAnimation=IMGSOUTH} //down
             if (r==3)  {
-                if (playArea[heroes[h].posX][heroes[h].posY].north==0)
+                if (heroes[h].posY>0 && playArea[heroes[h].posX][heroes[h].posY].north==0 &&  playArea[heroes[h].posX][heroes[h].posY-1].south==0)
                 heroes[h].moveTo=MOVENORTH; heroes[h].imgAnimation=IMGNORTH} //up
 
 
@@ -215,6 +197,8 @@ function updateBoard(){
     } 
        heroes[0].moveCycle+=speed;
        heroes[1].moveCycle+=speed;
+       heroes[2].moveCycle+=speed;
+       heroes[3].moveCycle+=speed;
     //viewPortX+=vpX;
     //viewPortY+=vpY;
    
@@ -227,7 +211,8 @@ function setUpBoard(){
     wallEast.src = "images/walleast.png";
     wallSouth.src = "images/wallsouth.png";
     wallWest.src = "images/wallwest.png";
-    floorImg.src = "images/floor.png";
+    floorImg.src= "images/floortiles.png";
+    //floorImg.src = "images/floor.png";
     heroImage.src="images/heroes.png";   
 
 }

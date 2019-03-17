@@ -2,13 +2,7 @@ var board;
 
 
 var myVar;
-var wallNorth = new Image();	
-var wallEast = new Image();	
-var wallSouth = new Image();	
-var wallWest = new Image();	
-var heroImage = new Image();
-
-var floorImg = new Image();	
+	
 
 $( document ).ready(function() {
 

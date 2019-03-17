@@ -1,3 +1,19 @@
+.header { grid-area: header; }
+.menu { grid-area: menu; }
+.main { grid-area: main; }
+.footer { grid-area: footer; }
+
+.grid-container {
+  display: grid;
+  grid-template-areas:
+    'header header header header'
+    'menu main main main'
+    'menu footer footer footer';
+  grid-gap: 10px;
+  background-color: rgb(175, 208, 235);
+  padding: 10px;
+}
+
 #score {
 	margin: 0 auto;
 	text-align: center;
@@ -23,24 +39,16 @@
 	user-select: none;
 }
 
+.heroStats {
+	
+}
+
 #gameCanvas canvas {
 	margin: 0;
 	padding: 0;
 	width: 450px;
 }
 
-#hero {
+#action {
 	font-size: 1.4em;
-}
-
-#player1 {
-	font-size: 1.0em;
-}
-
-#player2 {
-	font-size: 1.0em;
-}
-#weapon {
-	
-	font-size: 2em;
 }

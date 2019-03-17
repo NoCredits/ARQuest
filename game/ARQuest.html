@@ -10,31 +10,30 @@
         <link rel="stylesheet" type="text/css" href="ARQuest.css" />
     </head>
     <body>
-        <div class="hidden">
-            <script>
-        
-        
-            </script>
-        </div>
-
-            <h2>Hello dungeon</h2>
       
-        <div id="hero"> </div>
 
-        <div id="player"> </div>
-        <div id="player1"> </div>
-        <div id="player2"> </div>
-        <div id="player3"> </div>
-        <div id="weapon"> </div>
-       
-  
-
-        <div id="gameContainer" style="display: true" >
-            <div id="score">0</div>
-			<canvas id="gameCanvas"></canvas>
-        </div>
-           
+        <div class="grid-container">
+            <div class="header">
+                <h2>Hello dungeon</h2>
+            </div>
         
+            <div class="menu">
+                <div id="hero0" class="menu heroStats"> </div>
+                <div id="hero1" class="menu heroStats"> </div>
+                <div id="hero2" class="menu heroStats"> </div>
+                <div id="hero3" class="menu heroStats"> </div>
+                <div id="hero4" class="menu heroStats"> </div>
+            </div>
+  
+            <div id="gameContainer" class="main" >
+                <div id="score">0</div>
+                <canvas id="gameCanvas"></canvas>
+            </div>
+
+            <div class="footer">
+                <div id="action"></div>
+            </div>
+        </div>
 
      
 
