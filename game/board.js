@@ -18,7 +18,6 @@ class tile{
         this.animation=obj.animation;
     }
 
-
 }
 
 function create2DBoard(rows,columns) {
@@ -63,11 +62,32 @@ function create2DBoard(rows,columns) {
  
         }
     }        
-
+    arr=checkWalls(arr,rows,columns);
     return arr;
 }
   
 
+function checkWalls (board,rows,columns){
+    //walls from both sides
+    this.arr=board;
+    for (var r=0;r<rows;r++) {
+        for (c=0;c<columns;c++){
+            if (arr[r][c].north==1 && c>0) {
+                arr[r][c-1].south=1;
+            } 
+            if (arr[r][c].east==1 && r<rows-1) {
+                arr[r+1][c].west=1;
+            } 
+            if (arr[r][c].south==1 && c<columns-1) {
+                arr[r][c+1].north=1;
+            } 
+            if (arr[r][c].west==1 && r>0) {
+                arr[r-1][c].east=1;
+            }
+        }
+    }
+    return arr;
+}
 function checkReady(){
     var ready=false;
     if (floorImg.complete && heroImage.complete) ready=true;
@@ -79,10 +99,10 @@ function drawTile(tile,ctx,xpos,ypos){
    
 //ctx.save();
     if (tile.tile==1)     ctx.drawImage(floorImg, xpos, ypos,50,50);    
-    if (tile.north==1)     ctx.drawImage(wallNorth, xpos, ypos,50,50);    
-    if (tile.east==1)     ctx.drawImage(wallEast, xpos, ypos,50,50);    
-    if (tile.south==1)     ctx.drawImage(wallSouth, xpos, ypos,50,50);    
-    if (tile.west==1)     ctx.drawImage(wallWest, xpos, ypos,50,50);    
+    if (tile.north==1)     ctx.drawImage(wallNorth, xpos, ypos-2,50,50);    
+    if (tile.east==1)     ctx.drawImage(wallEast, xpos+2, ypos,50,50);    
+    if (tile.south==1)     ctx.drawImage(wallSouth, xpos, ypos+3,50,50);    
+    if (tile.west==1)     ctx.drawImage(wallWest, xpos-3, ypos,50,50);    
 //    ctx.rotate(90*TO_RADIANS);
  //   ctx.drawImage(wallImg, i, j,50,10);    
     //ctx.restore();
@@ -111,33 +131,33 @@ function updateBoard(){
         }
         //ctx.drawImage(heroImage,(heroesAnimation+3)*50,(heroesWay)*50,50,50, 200, 200,50,50);   
         for (h=0;h<2;h++){
-        switch (heroes[h].moveTo){
-            case MOVENORTH :
-            heroes[h].incY-=speed;
-            if (heroes[h].hasTurn) viewPortY+=speed;
-            break;
-            case MOVEEAST :
-            heroes[h].incX+=speed;
-            if (heroes[h].hasTurn) viewPortX-=speed;
-            break;
-            case MOVESOUTH :
-            heroes[h].incY+=speed;
-            if (heroes[h].hasTurn) viewPortY-=speed;
-            break;
-            case MOVEWEST :
-            heroes[h].incX-=speed;
-            if (heroes[h].hasTurn) viewPortX+=speed;
-            break;
-        }
+            switch (heroes[h].moveTo){
+                case MOVENORTH :
+                heroes[h].incY-=speed;
+                if (heroes[h].hasTurn) viewPortY+=speed;
+                break;
+                case MOVEEAST :
+                heroes[h].incX+=speed;
+                if (heroes[h].hasTurn) viewPortX-=speed;
+                break;
+                case MOVESOUTH :
+                heroes[h].incY+=speed;
+                if (heroes[h].hasTurn) viewPortY-=speed;
+                break;
+                case MOVEWEST :
+                heroes[h].incX-=speed;
+                if (heroes[h].hasTurn) viewPortX+=speed;
+                break;
+            }
 
-        var canvasX=(heroes[h].posX-gridStartX)*tileSizeX+heroes[h].incX+viewPortX;
-        var canvasY=(heroes[h].posY-gridStartY)*tileSizeY+heroes[h].incY+viewPortY;
+            var canvasX=(heroes[h].posX-gridStartX)*tileSizeX+heroes[h].incX+viewPortX;
+            var canvasY=(heroes[h].posY-gridStartY)*tileSizeY+heroes[h].incY+viewPortY;
 
-        ctx.drawImage(heroImage,
-            (heroes[h].imgX+heroesAnimation+3)*50,(heroes[h].imgY+heroes[h].imgAnimation)*50,50,50, 
-            canvasX,canvasY,50,50
-            );       
-    }
+            ctx.drawImage(heroImage,
+                (heroes[h].imgX+heroesAnimation+3)*50,(heroes[h].imgY+heroes[h].imgAnimation)*50,50,50, 
+                canvasX,canvasY,50,50
+                );       
+         }
 
     }
     if (animateLoop>5){
