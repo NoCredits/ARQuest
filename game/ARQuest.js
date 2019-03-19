@@ -7,6 +7,8 @@ var myVar;
 $( document ).ready(function() {
 
 	createHeros();
+	createFoes();
+
 	playArea=create2DBoard(gridSizeX,gridSizeY);
 
 	go();
