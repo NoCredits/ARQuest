@@ -1,24 +1,5 @@
 
-class tile{
 
-    constructor (json){
-        var obj=JSON.parse(json);
-        if( !obj.hasOwnProperty('north')) obj.north=0;
-        if( !obj.hasOwnProperty('east')) obj.east=0;
-        if( !obj.hasOwnProperty('south')) obj.south=0;
-        if( !obj.hasOwnProperty('west')) obj.west=0;
-        if( !obj.hasOwnProperty('tile')) obj.type=0;
-        if( !obj.hasOwnProperty('animation')) obj.animation=0;
-
-        this.tile=obj.tile;
-        this.north=obj.north;
-        this.east=obj.east;
-        this.south=obj.south;
-        this.west=obj.west;
-        this.animation=obj.animation;
-    }
-
-}
 
 function create2DBoard(rows,columns) {
     /* creates
@@ -53,7 +34,7 @@ function create2DBoard(rows,columns) {
              if (r==rows-1) {
                 arr[r][c].east=1;
              }
-           
+             arr[r][c].floorNo=Math.floor(Math.random() * 4);
              //some random walls
              if (Math.floor(Math.random() * 10 +1)==1)   arr[c][r].north=1;
              if (Math.floor(Math.random() * 10 +1)==2)   arr[c][r].east=1;
@@ -62,35 +43,16 @@ function create2DBoard(rows,columns) {
  
         }
     }        
-    arr=checkWalls(arr,rows,columns);
+  
     return arr;
 }
   
 
-function checkWalls (board,rows,columns){
-    //walls from both sides
-    this.arr=board;
-    for (var r=0;r<rows;r++) {
-        for (c=0;c<columns;c++){
-            if (arr[r][c].north==1 && c>0) {
-                arr[r][c-1].south=1;
-            } 
-            if (arr[r][c].east==1 && r<rows-1) {
-                arr[r+1][c].west=1;
-            } 
-            if (arr[r][c].south==1 && c<columns-1) {
-                arr[r][c+1].north=1;
-            } 
-            if (arr[r][c].west==1 && r>0) {
-                arr[r-1][c].east=1;
-            }
-        }
-    }
-    return arr;
-}
 function checkReady(){
-    var ready=false;
-    if (floorImg.complete && heroImage.complete) ready=true;
+    var ready=true;
+    for (i= 0, len = images.length; i < len; ++i) {
+        if (!images[i].complete)  ready=false;
+    }
     return ready;
 }
 
@@ -98,27 +60,21 @@ function checkReady(){
 function drawTile(tile,ctx,xpos,ypos){
    
 //ctx.save();
-    if (tile.tile==1)     ctx.drawImage(floorImg, xpos, ypos,50,50);    
-    if (tile.north==1)     ctx.drawImage(wallNorth, xpos, ypos-2,50,50);    
-    if (tile.east==1)     ctx.drawImage(wallEast, xpos+2, ypos,50,50);    
-    if (tile.south==1)     ctx.drawImage(wallSouth, xpos, ypos+3,50,50);    
-    if (tile.west==1)     ctx.drawImage(wallWest, xpos-3, ypos,50,50);    
+    if (tile.tile==1)     ctx.drawImage(images[0],tile.floorNo*50,0,50,50, xpos, ypos,50,50);    
+    if (tile.north==1)     ctx.drawImage(images[1], xpos, ypos,50,50);    
+    if (tile.east==1)     ctx.drawImage(images[2], xpos, ypos,50,50);    
+    if (tile.south==1)     ctx.drawImage(images[3], xpos, ypos,50,50);    
+    if (tile.west==1)     ctx.drawImage(images[4], xpos, ypos,50,50);    
 //    ctx.rotate(90*TO_RADIANS);
  //   ctx.drawImage(wallImg, i, j,50,10);    
     //ctx.restore();
-
 }
-var vpX=0;
-var vpY=0;
-var heroesWay=0;
-var heroesAnimation=0;
+
 var animateLoop=0;
-var incX=0;
-var incY=0;
-var speed=3;
+
 function updateBoard(){
 
-    if (checkReady){
+    if (checkReady()){
         var c = document.getElementById("gameCanvas");
         var ctx = c.getContext("2d");
         ctx.clearRect(0,0,c.width,c.height)
@@ -129,105 +85,52 @@ function updateBoard(){
                 drawTile(playArea[i][j],ctx,i*tileSizeX-gridStartX*tileSizeX+viewPortX,j*tileSizeY-gridStartY*tileSizeY+viewPortY);
             }
         }
-        //ctx.drawImage(heroImage,(heroesAnimation+3)*50,(heroesWay)*50,50,50, 200, 200,50,50);   
-        for (h=0;h<2;h++){
-            switch (heroes[h].moveTo){
-                case MOVENORTH :
-                heroes[h].incY-=speed;
-                if (heroes[h].hasTurn) viewPortY+=speed;
-                break;
-                case MOVEEAST :
-                heroes[h].incX+=speed;
-                if (heroes[h].hasTurn) viewPortX-=speed;
-                break;
-                case MOVESOUTH :
-                heroes[h].incY+=speed;
-                if (heroes[h].hasTurn) viewPortY-=speed;
-                break;
-                case MOVEWEST :
-                heroes[h].incX-=speed;
-                if (heroes[h].hasTurn) viewPortX+=speed;
-                break;
-            }
-
-            var canvasX=(heroes[h].posX-gridStartX)*tileSizeX+heroes[h].incX+viewPortX;
-            var canvasY=(heroes[h].posY-gridStartY)*tileSizeY+heroes[h].incY+viewPortY;
-
-            ctx.drawImage(heroImage,
-                (heroes[h].imgX+heroesAnimation+3)*50,(heroes[h].imgY+heroes[h].imgAnimation)*50,50,50, 
-                canvasX,canvasY,50,50
-                );       
-         }
-
-    }
-    if (animateLoop>5){
-         heroesAnimation--;
-         if (heroesAnimation<0) heroesAnimation=2;
-         animateLoop=0;
-    }
-    animateLoop++;
-
-    for (h=0;h<2;h++){
-
-        if (heroes[h].moveCycle>=50){
-            heroes[h].moveCycle=0;
-            viewPortX=0;
-            viewPortY=0;
-    
-            switch (heroes[h].moveTo){
-                case MOVENORTH :
-                heroes[h].posY--;
-                break;
-                case MOVEEAST :
-                heroes[h].posX++;
-                break;
-                case MOVESOUTH :
-                heroes[h].posY++;
-                break;
-                case MOVEWEST :
-                heroes[h].posX--;
-                break;         
-            }
-            if (heroes[h].hasTurn){
-                //center on hero
-                gridStartX=heroes[h].posX-4;
-                gridStartY=heroes[h].posY-4;
-            }
-            heroes[h].moveTo=NOWHERE; 
-            var r=Math.floor(Math.random() * 4) ;
-            if (r==0)  {
-                if (playArea[heroes[h].posX][heroes[h].posY].east==0)
-                    heroes[h].moveTo=MOVEEAST; heroes[h].imgAnimation=IMGEAST } //right
-            if (r==1)  {
-                if (playArea[heroes[h].posX][heroes[h].posY].west==0)
-                heroes[h].moveTo=MOVEWEST; heroes[h].imgAnimation=IMGWEST} //left
-            if (r==2)  {
-                if (playArea[heroes[h].posX][heroes[h].posY].south==0)
-                heroes[h].moveTo=MOVESOUTH;heroes[h].imgAnimation=IMGSOUTH} //down
-            if (r==3)  {
-                if (playArea[heroes[h].posX][heroes[h].posY].north==0)
-                heroes[h].moveTo=MOVENORTH; heroes[h].imgAnimation=IMGNORTH} //up
-
-
-            heroes[h].incX=0;
-            heroes[h].incY=0;
-        }
-    } 
-       heroes[0].moveCycle+=speed;
-       heroes[1].moveCycle+=speed;
-    //viewPortX+=vpX;
-    //viewPortY+=vpY;
    
+        for (i= 0, len = heroes.length; i < len; ++i) {
+            heroes[i].trackMovement();
+            if (animateLoop>5){
+                heroes[i].moveAnimate();
+             }
+           heroes[i].draw(ctx);
+        }
+
+        for (i= 0, len = foes.length; i < len; ++i) {
+            foes[i].trackMovement();
+            if (animateLoop>5){
+                foes[i].moveAnimate();
+           }
+           foes[i].draw(ctx);
+        }
+
+    }
+    if (animateLoop++>5) animateLoop=0;
+
+    for (i= 0, len = heroes.length; i < len; ++i) {
+        heroes[i].moveCycle+=speed;
+    }
+    for (i= 0, len = foes.length; i < len; ++i) {
+        foes[i].moveCycle+=speed;
+    }
 
 }
 
 function setUpBoard(){
 
-    wallNorth.src = "images/wallnorth.png";
-    wallEast.src = "images/walleast.png";
-    wallSouth.src = "images/wallsouth.png";
-    wallWest.src = "images/wallwest.png";
-    floorImg.src = "images/floor.png";
-    heroImage.src="images/heroes.png";   
+    images[0]=new Image();
+    images[0].src= "images/floortiles.png";
+    images[1]=new Image();
+    images[1].src = "images/wallnorth.png";
+    images[2]=new Image();
+    images[2].src = "images/walleast.png";
+    images[3]=new Image();
+    images[3].src = "images/wallsouth.png";
+    images[4]=new Image();
+    images[4].src = "images/wallwest.png";
+    images[5]=new Image();
+    images[5].src="images/heroes.png";   
+    images[6]=new Image();
+    images[6].src="images/bears.png";   
+    images[7]=new Image();
+    images[7].src="images/werewolves.png";   
 
 }
