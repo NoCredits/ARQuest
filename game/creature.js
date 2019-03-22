@@ -91,7 +91,8 @@ class Creature{
     }
 
     moveAnimate(){
-        this.imgAnimation--;
+        if (this.moveTo!=NOWHERE)     this.imgAnimation--;
+        else this.imgDirection=IMGSOUTH;
         if (this.imgAnimation<0) this.imgAnimation=2;
     }
 
@@ -116,13 +117,16 @@ class Creature{
         }
         if (this.hasTurn){
             //center on hero
-            gridStartX=this.posX-4;
-            gridStartY=this.posY-4;
+            gridStartX=this.posX-Math.floor(gridVisibleX/2);
+            gridStartY=this.posY-Math.floor(gridVisibleY/2);
         }
         this.moveTo=NOWHERE; 
+
         this.incX=0;
         this.incY=0;
-        this.randomMove();
+
+        if ( Math.floor(Math.random() * 6)==1) this.randomMove();
+
     }
 
     randomMove(){

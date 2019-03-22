@@ -10,7 +10,7 @@ $( document ).ready(function() {
 	createFoes();
 
 	playArea=create2DBoard(gridSizeX,gridSizeY);
-
+	
 	go();
   });
 

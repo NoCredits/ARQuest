@@ -62,7 +62,7 @@ function createHeros(){
     heroes.push(new Druid('{"race":"dwarf","hitpoints":110,"name":"Micha","imgX":9,"imgY":4,"posX":2,"posY":8,"img":5}'));
 
     heroes[0].mainHand=new Sword('{"name":"the Destroyer"}');
-    heroes[0].hasTurn=true;
+    heroes[2].hasTurn=true;
 
     var main=heroes[0].mainHand;
     

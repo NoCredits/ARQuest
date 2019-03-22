@@ -70,39 +70,52 @@ function drawTile(tile,ctx,xpos,ypos){
     //ctx.restore();
 }
 
+
+
 var animateLoop=0;
 
 function updateBoard(){
-
     if (checkReady()){
+        
         var c = document.getElementById("gameCanvas");
         var ctx = c.getContext("2d");
         ctx.clearRect(0,0,c.width,c.height)
         console.log(checkReady());
         ctx.clearRect(0, 0, c.width, c.height);
+
+        //Draw tiles
         for (i=0;i<gridSizeX;i++){
             for (j=0;j<gridSizeY;j++){
                 drawTile(playArea[i][j],ctx,i*tileSizeX-gridStartX*tileSizeX+viewPortX,j*tileSizeY-gridStartY*tileSizeY+viewPortY);
             }
         }
-   
+
+        //Draw heroes
+        for (i= 0, len = heroes.length; i < len; ++i) {
+            heroes[i].draw(ctx);
+         }
+        //Draw foes
+        for (i= 0, len = foes.length; i < len; ++i) {
+           foes[i].draw(ctx);
+        }
+
+        //heroes on the move
         for (i= 0, len = heroes.length; i < len; ++i) {
             heroes[i].trackMovement();
             if (animateLoop>5){
-                heroes[i].moveAnimate();
+                        heroes[i].moveAnimate();
              }
-           heroes[i].draw(ctx);
         }
-
+        //foes on the move
         for (i= 0, len = foes.length; i < len; ++i) {
             foes[i].trackMovement();
             if (animateLoop>5){
                 foes[i].moveAnimate();
            }
-           foes[i].draw(ctx);
         }
 
     }
+
     if (animateLoop++>5) animateLoop=0;
 
     for (i= 0, len = heroes.length; i < len; ++i) {

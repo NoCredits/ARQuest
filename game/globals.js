@@ -5,10 +5,16 @@ var TO_RADIANS = Math.PI/180;
 var viewPortX=0;
 var viewPortY=0;
 
-var gridSizeX=25;
-var gridSizeY=25;
+
+var gridSizeX=15;
+var gridSizeY=15;
+
+var gridVisibleX=9;
+var gridVisibleY=9;
 var gridStartX=4;
 var gridStartY=4;
+var gridOldStartX=4;
+var gridOldStartY=4;
 var tileSizeX=50;
 var tileSizeY=50;
 
@@ -35,6 +41,6 @@ var bearImage = new Image();
 var werewolvesImage = new Image();
 
 var images = new Array();
-
+var activeHero;
 var floorImg = new Image();	
 
