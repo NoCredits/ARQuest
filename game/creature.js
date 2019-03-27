@@ -56,32 +56,37 @@ class Creature{
 
     
     draw(ctx){
+        var screenPosX=(this.posX)*tileSizeX+this.incX;
+        var screenPosY=(this.posY)*tileSizeY+this.incY;
+        screenPosX=screenPosX*scaleFactor;
+        screenPosY=screenPosY*scaleFactor;
 
-        var screenPosX=(this.posX-gridStartX)*tileSizeX+this.incX+viewPortX;
-        var screenPosY=(this.posY-gridStartY)*tileSizeY+this.incY+viewPortY;
+
+        if (this.hasTurn){
+            activeCreatureX=screenPosX;
+            activeCreatureY=screenPosY;
+        }
+
         ctx.drawImage(images[this.img],
             (this.imgX+this.imgAnimation)*50,(this.imgY+this.imgDirection)*50,50,50, 
-            screenPosX,screenPosY,50,50
+            screenPosX,screenPosY,50*scaleFactor,50*scaleFactor
             );       
+
     }
 
     trackMovement(){
         switch (this.moveTo){
             case MOVENORTH :
             this.incY-=speed;
-            if (this.hasTurn) viewPortY+=speed;
             break;
             case MOVEEAST :
             this.incX+=speed;
-            if (this.hasTurn) viewPortX-=speed;
             break;
             case MOVESOUTH :
             this.incY+=speed;
-            if (this.hasTurn) viewPortY-=speed;
             break;
             case MOVEWEST :
             this.incX-=speed;
-            if (this.hasTurn) viewPortX+=speed;
             break;
         }
         
@@ -98,8 +103,6 @@ class Creature{
 
     stopMove(){
         this.moveCycle=0;
-        viewPortX=0;
-        viewPortY=0;
 
         switch (this.moveTo){
             case MOVENORTH :
@@ -115,17 +118,13 @@ class Creature{
             this.posX--;
             break;         
         }
-        if (this.hasTurn){
-            //center on hero
-            gridStartX=this.posX-Math.floor(gridVisibleX/2);
-            gridStartY=this.posY-Math.floor(gridVisibleY/2);
-        }
+
         this.moveTo=NOWHERE; 
 
         this.incX=0;
         this.incY=0;
 
-        if ( Math.floor(Math.random() * 6)==1) this.randomMove();
+        if ( Math.floor(Math.random() * 2)==1) this.randomMove();
 
     }
 

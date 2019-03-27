@@ -1,20 +1,18 @@
 
 var speed=3;
-
+var scaleFactor=1;
 var TO_RADIANS = Math.PI/180; 
-var viewPortX=0;
-var viewPortY=0;
+var canvasSizeX=450;
+var canvasSizeY=450;
 
+var activeCreatureX=0;
+var activeCreatureY=0;
+var translateX=0;
+var translateY=0;
 
-var gridSizeX=15;
-var gridSizeY=15;
+var gridSizeX=49;
+var gridSizeY=49;
 
-var gridVisibleX=9;
-var gridVisibleY=9;
-var gridStartX=4;
-var gridStartY=4;
-var gridOldStartX=4;
-var gridOldStartY=4;
 var tileSizeX=50;
 var tileSizeY=50;
 
@@ -41,6 +39,5 @@ var bearImage = new Image();
 var werewolvesImage = new Image();
 
 var images = new Array();
-var activeHero;
 var floorImg = new Image();	
 

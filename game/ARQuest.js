@@ -38,8 +38,8 @@ function go(){
 	}
 	
 	canvas = document.getElementById("gameCanvas");
-	canvas.width = 450;
-	canvas.height = 450;
+	canvas.width = canvasSizeX;
+	canvas.height = canvasSizeY;
 
 	
 	myVar = setInterval(gameLoop, 33);

@@ -53,7 +53,7 @@ function createHeros(){
 
 
    
-    heroes.push(new Wizard('{"race":"human","hitpoints":100,"name":"Gandalf the Grey","imgX":0,"imgY":0,"posX":4,"posY":4,"img":5}'));
+    heroes.push(new Wizard('{"race":"human","hitpoints":100,"name":"Gandalf the Grey","imgX":0,"imgY":0,"posX":3,"posY":3,"img":5}'));
 
     heroes.push(new Wizard('{"race":"elf","hitpoints":110,"name":"Galandriel","imgX":3,"imgY":4,"posX":6,"posY":6,"img":5}'));
 
