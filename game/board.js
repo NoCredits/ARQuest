@@ -1,6 +1,5 @@
 
 
-
 function create2DBoard(rows,columns) {
     /* creates
         111111
@@ -37,9 +36,9 @@ function create2DBoard(rows,columns) {
              arr[r][c].floorNo=Math.floor(Math.random() * 4);
              //some random walls
              if (Math.floor(Math.random() * 10 +1)==1)   arr[c][r].north=1;
-             if (Math.floor(Math.random() * 10 +1)==2)   arr[c][r].east=1;
-             if (Math.floor(Math.random() * 10 +1)==3)   arr[c][r].south=1;
-             if (Math.floor(Math.random() * 10 +1)==4)   arr[c][r].west=1;
+             if (Math.floor(Math.random() * 10 +1)==1)   arr[c][r].east=1;
+             if (Math.floor(Math.random() * 10 +1)==1)   arr[c][r].south=1;
+             if (Math.floor(Math.random() * 10 +1)==1)   arr[c][r].west=1;
  
         }
     }        
@@ -57,52 +56,104 @@ function checkReady(){
 }
 
 
+function zoomIn(){
+    scaleFactor*=1.2;
+}
+function zoomOut(){
+    scaleFactor/=1.2;
+}
+
 function drawTile(tile,ctx,xpos,ypos){
    
 //ctx.save();
-    if (tile.tile==1)     ctx.drawImage(images[0],tile.floorNo*50,0,50,50, xpos, ypos,50,50);    
-    if (tile.north==1)     ctx.drawImage(images[1], xpos, ypos,50,50);    
-    if (tile.east==1)     ctx.drawImage(images[2], xpos, ypos,50,50);    
-    if (tile.south==1)     ctx.drawImage(images[3], xpos, ypos,50,50);    
-    if (tile.west==1)     ctx.drawImage(images[4], xpos, ypos,50,50);    
+        if (tile.tile==1)     ctx.drawImage(images[0],tile.floorNo*50,0,50,50, xpos*scaleFactor, ypos*scaleFactor,tileSizeX*scaleFactor,tileSizeY*scaleFactor);    
+        if (tile.north==1)     ctx.drawImage(images[1], xpos*scaleFactor, ypos*scaleFactor,tileSizeX*scaleFactor,tileSizeY*scaleFactor);    
+        if (tile.east==1)     ctx.drawImage(images[2], xpos*scaleFactor, ypos*scaleFactor,tileSizeX*scaleFactor,tileSizeY*scaleFactor);    
+        if (tile.south==1)     ctx.drawImage(images[3], xpos*scaleFactor, ypos*scaleFactor,tileSizeX*scaleFactor,tileSizeY*scaleFactor);    
+        if (tile.west==1)     ctx.drawImage(images[4], xpos*scaleFactor, ypos*scaleFactor,tileSizeX*scaleFactor,tileSizeY*scaleFactor);    
 //    ctx.rotate(90*TO_RADIANS);
  //   ctx.drawImage(wallImg, i, j,50,10);    
     //ctx.restore();
 }
 
+
+
 var animateLoop=0;
 
 function updateBoard(){
-
     if (checkReady()){
+        
         var c = document.getElementById("gameCanvas");
         var ctx = c.getContext("2d");
+        
+        //save screen
+        ctx.save();
         ctx.clearRect(0,0,c.width,c.height)
-        console.log(checkReady());
-        ctx.clearRect(0, 0, c.width, c.height);
+
+        canvasSizeX=c.width;
+        canvasSizeY=c.height;
+        translateX=0;
+        translateY=0;
+
+        //calc scroll of screen
+        if (activeCreatureX>(canvasSizeX)/2) {
+            translateX=(activeCreatureX-(canvasSizeX)/2)*(-1);
+        } 
+        if (activeCreatureX>(gridSizeX*tileSizeX*scaleFactor)-(canvasSizeX)/2) {
+            translateX=((gridSizeX*tileSizeX*scaleFactor)-(canvasSizeX))*(-1);
+        }
+
+        if (activeCreatureY>(canvasSizeY)/2 ) {
+            translateY=(activeCreatureY-(canvasSizeY)/2)*(-1);
+        }
+        if (activeCreatureX>(gridSizeY*tileSizeY*scaleFactor)-(canvasSizeY)/2) {
+            translateY=((gridSizeY*tileSizeY*scaleFactor)-(canvasSizeY))*(-1);
+        }
+
+        //smaller then screen? then center
+        if ((gridSizeX*tileSizeX*scaleFactor)<canvasSizeX) {
+           translateX=(canvasSizeX-(gridSizeX*tileSizeX*scaleFactor))/2;
+        }
+        if ((gridSizeY*tileSizeY*scaleFactor)<canvasSizeY) {
+            translateY=(canvasSizeY-(gridSizeY*tileSizeY*scaleFactor))/2;
+         }
+
+         //center screen on hero
+         ctx.translate(translateX,translateY);
+
+         // draw tiles
         for (i=0;i<gridSizeX;i++){
             for (j=0;j<gridSizeY;j++){
-                drawTile(playArea[i][j],ctx,i*tileSizeX-gridStartX*tileSizeX+viewPortX,j*tileSizeY-gridStartY*tileSizeY+viewPortY);
+                drawTile(playArea[i][j],ctx,i*tileSizeX,j*tileSizeY);
             }
         }
-   
+
+        //Draw heroes
+        for (i= 0, len = heroes.length; i < len; ++i) {
+            heroes[i].draw(ctx);
+         }
+        //Draw foes
+        for (i= 0, len = foes.length; i < len; ++i) {
+           foes[i].draw(ctx);
+        }
+
+        //heroes on the move
         for (i= 0, len = heroes.length; i < len; ++i) {
             heroes[i].trackMovement();
             if (animateLoop>5){
-                heroes[i].moveAnimate();
+                        heroes[i].moveAnimate();
              }
-           heroes[i].draw(ctx);
         }
-
+        //foes on the move
         for (i= 0, len = foes.length; i < len; ++i) {
             foes[i].trackMovement();
             if (animateLoop>5){
                 foes[i].moveAnimate();
            }
-           foes[i].draw(ctx);
         }
 
     }
+
     if (animateLoop++>5) animateLoop=0;
 
     for (i= 0, len = heroes.length; i < len; ++i) {
@@ -111,6 +162,9 @@ function updateBoard(){
     for (i= 0, len = foes.length; i < len; ++i) {
         foes[i].moveCycle+=speed;
     }
+
+    //restore original screen
+    ctx.restore();
 
 }
 
