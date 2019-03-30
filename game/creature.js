@@ -65,6 +65,7 @@ class Creature{
         if (this.hasTurn){
             activeCreatureX=screenPosX;
             activeCreatureY=screenPosY;
+            console.log(this.posX,this.posY)
         }
 
         ctx.drawImage(images[this.img],

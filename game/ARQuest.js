@@ -14,6 +14,16 @@ $( document ).ready(function() {
 	go();
   });
 
+//Get Mouse Position
+function getMousePos(canvas, evt) {
+    var rect = canvas.getBoundingClientRect();
+    return {
+        x: evt.clientX - rect.left,
+        y: evt.clientY - rect.top
+    };
+}
+
+
 
 function go(){
 
@@ -24,20 +34,17 @@ function go(){
 	}
 	
 	
-	function tap (e) {
-	
-		var loc = {};
-			pos = getElementPosition(canvas),
-			tapX = e.targetTouches ? e.targetTouches[0].pageX : e.pageX,
-			tapY = e.targetTouches ? e.targetTouches[0].pageY : e.pageY,
-			canvasScaleRatio = canvas.width / canvas.offsetWidth;
 
-		loc.x = (tapX - pos.x) * canvasScaleRatio;
-		loc.y = (tapY - pos.y) * canvasScaleRatio;
-			
-	}
 	
 	canvas = document.getElementById("gameCanvas");
+	canvas.addEventListener("click", function (evt) {
+		mousePos = getMousePos(canvas, evt);
+		//alert(mousePos.x + ',' + mousePos.y);
+		mousePos.x=Math.round(mousePos.x);
+		mousePos.y=Math.round(mousePos.y);
+		rightClick();
+	}, false);
+	
 	canvas.width = canvasSizeX;
 	canvas.height = canvasSizeY;
 
