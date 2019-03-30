@@ -49,11 +49,18 @@ class Druid extends Hero{
     }
 }
 
+function newHeroHasTurn(hero){
+    for (i= 0, len = heroes.length; i < len; ++i) {
+        heroes[i].hasTurn=false;
+    }
+    heroes[hero].hasTurn=true;
+}
+
 function createHeros(){
 
 
    
-    heroes.push(new Wizard('{"race":"human","hitpoints":100,"name":"Gandalf the Grey","imgX":0,"imgY":0,"posX":3,"posY":3,"img":5}'));
+    heroes.push(new Wizard('{"race":"human","hitpoints":100,"name":"Gandalf the Grey","imgX":0,"imgY":0,"posX":4,"posY":4,"img":5}'));
 
     heroes.push(new Wizard('{"race":"elf","hitpoints":110,"name":"Galandriel","imgX":3,"imgY":4,"posX":6,"posY":6,"img":5}'));
 
@@ -62,7 +69,7 @@ function createHeros(){
     heroes.push(new Druid('{"race":"dwarf","hitpoints":110,"name":"Micha","imgX":9,"imgY":4,"posX":2,"posY":8,"img":5}'));
 
     heroes[0].mainHand=new Sword('{"name":"the Destroyer"}');
-    heroes[2].hasTurn=true;
+    heroes[0].hasTurn=true;
 
     var main=heroes[0].mainHand;
     

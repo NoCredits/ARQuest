@@ -76,25 +76,80 @@ function drawTile(tile,ctx,xpos,ypos){
     //ctx.restore();
 }
 
+function canGoNorth(posX,posY){
+    if (playArea[posX][posY].north!=1 && playArea[posX][posY-1].south!=1) return true;
+    else return false;
+}
+function canGoEast(posX,posY){
+    if (playArea[posX][posY].east!=1 && playArea[posX+1][posY].west!=1) return true;
+    else return false;
+}
+function canGoSouth(posX,posY){
+    if (playArea[posX][posY].south!=1 && playArea[posX][posY+1].north!=1) return true;
+    else return false;
+}
+function canGoWest(posX,posY){
+    if (playArea[posX][posY].west!=1 && playArea[posX-1][posY].east!=1) return true;
+    else return false;
+}
 
+
+function getTileInfo(posX,posY){
+    var tile=playArea[posX][posY];
+    var info="tile: "+tile.tile+" ";
+
+    info+="exits: ";
+    info+=canGoNorth(posX,posY)?"N":"";
+    info+=canGoEast(posX,posY)?"E":"";
+    info+=canGoSouth(posX,posY)?"S":"";
+    info+=canGoWest(posX,posY)?"W":"";
+    info+="<br\>";
+    for (i= 0, len = heroes.length; i < len; ++i) {
+        if (heroes[i].posX==posX && heroes[i].posY==posY) {
+            info+=heroes[i].name+" ("+heroes[i].race+" "+heroes[i].class+") ";
+            newHeroHasTurn(i);
+        }
+     }
+    //Draw foes
+    for (i= 0, len = foes.length; i < len; ++i) {
+        if (foes[i].posX==posX && foes[i].posY==posY) info+=foes[i].name+" ";
+    }
+
+    return info;
+}
+
+function rightClick(){
+    //gridX=(canvasSizeX+translateX+mousePos.x);
+    var gridX=(mousePos.x-translateX);
+    gridX=Math.floor(gridX/(tileSizeX*scaleFactor));
+
+    var gridY=(mousePos.y-translateY);
+    gridY=Math.floor(gridY/(tileSizeY*scaleFactor));
+
+    $("#action").html(
+        "clicked at ("+gridX+","+gridY+") found: "+getTileInfo(gridX,gridY)
+    );
+
+}
 
 var animateLoop=0;
 
 function updateBoard(){
     if (checkReady()){
         
-        var c = document.getElementById("gameCanvas");
-        var ctx = c.getContext("2d");
+        //var c = document.getElementById("gameCanvas");
+        var ctx = canvas.getContext("2d");
         
         //save screen
         ctx.save();
-        ctx.clearRect(0,0,c.width,c.height)
+        ctx.clearRect(0,0,canvas.width,canvas.height)
 
-        canvasSizeX=c.width;
-        canvasSizeY=c.height;
+        canvasSizeX=canvas.width;
+        canvasSizeY=canvas.height;
         translateX=0;
         translateY=0;
 
+         //   console.log(activeCreatureX+" "+canvasSizeX);
         //calc scroll of screen
         if (activeCreatureX>(canvasSizeX)/2) {
             translateX=(activeCreatureX-(canvasSizeX)/2)*(-1);
@@ -106,7 +161,7 @@ function updateBoard(){
         if (activeCreatureY>(canvasSizeY)/2 ) {
             translateY=(activeCreatureY-(canvasSizeY)/2)*(-1);
         }
-        if (activeCreatureX>(gridSizeY*tileSizeY*scaleFactor)-(canvasSizeY)/2) {
+        if (activeCreatureY>(gridSizeY*tileSizeY*scaleFactor)-(canvasSizeY)/2) {
             translateY=((gridSizeY*tileSizeY*scaleFactor)-(canvasSizeY))*(-1);
         }
 
@@ -120,7 +175,7 @@ function updateBoard(){
 
          //center screen on hero
          ctx.translate(translateX,translateY);
-
+        // console.log(translateX+" "+translateY);
          // draw tiles
         for (i=0;i<gridSizeX;i++){
             for (j=0;j<gridSizeY;j++){

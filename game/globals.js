@@ -10,11 +10,12 @@ var activeCreatureY=0;
 var translateX=0;
 var translateY=0;
 
-var gridSizeX=49;
-var gridSizeY=49;
+var gridSizeX=29;
+var gridSizeY=29;
 
 var tileSizeX=50;
 var tileSizeY=50;
+var mousePos;
 
 var heroes=new Array;
 var foes=new Array;
