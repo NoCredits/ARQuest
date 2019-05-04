@@ -2,21 +2,27 @@ var board;
 
 
 var myVar;
-var wallNorth = new Image();	
-var wallEast = new Image();	
-var wallSouth = new Image();	
-var wallWest = new Image();	
-var heroImage = new Image();
-
-var floorImg = new Image();	
+	
 
 $( document ).ready(function() {
 
 	createHeros();
-	playArea=create2DBoard(gridSizeX,gridSizeY);
+	createFoes();
 
+	playArea=create2DBoard(gridSizeX,gridSizeY);
+	
 	go();
   });
+
+//Get Mouse Position
+function getMousePos(canvas, evt) {
+    var rect = canvas.getBoundingClientRect();
+    return {
+        x: evt.clientX - rect.left,
+        y: evt.clientY - rect.top
+    };
+}
+
 
 
 function go(){
@@ -28,22 +34,19 @@ function go(){
 	}
 	
 	
-	function tap (e) {
-	
-		var loc = {};
-			pos = getElementPosition(canvas),
-			tapX = e.targetTouches ? e.targetTouches[0].pageX : e.pageX,
-			tapY = e.targetTouches ? e.targetTouches[0].pageY : e.pageY,
-			canvasScaleRatio = canvas.width / canvas.offsetWidth;
 
-		loc.x = (tapX - pos.x) * canvasScaleRatio;
-		loc.y = (tapY - pos.y) * canvasScaleRatio;
-			
-	}
 	
 	canvas = document.getElementById("gameCanvas");
-	canvas.width = 450;
-	canvas.height = 450;
+	canvas.addEventListener("click", function (evt) {
+		mousePos = getMousePos(canvas, evt);
+		//alert(mousePos.x + ',' + mousePos.y);
+		mousePos.x=Math.round(mousePos.x);
+		mousePos.y=Math.round(mousePos.y);
+		rightClick();
+	}, false);
+	
+	canvas.width = canvasSizeX;
+	canvas.height = canvasSizeY;
 
 	
 	myVar = setInterval(gameLoop, 33);
