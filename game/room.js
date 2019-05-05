@@ -17,6 +17,10 @@ class Room {
 }
 
 function initialiseRooms(rows, columns) {
+    // Size constraints
+    let rows = rows;
+    let columns = columns;
+
     // Board Logic
     let roomMaxCount = 200;
     let roomWallMinLength = 3;
