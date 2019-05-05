@@ -31,7 +31,7 @@ function initialiseRooms(rows, columns) {
     // Add X scattered rooms, if a room overlaps another room it is discarded
     for (var i = 0; i < roomMaxCount; i++) {
         // generate a room
-        newRoomProp = createRoom(roomWallMinLength, roomWallMaxLength, i);
+        newRoom = createRoom(roomWallMinLength, roomWallMaxLength, i);
 
         // add a random map position
         newPos = randomMapPosition;
@@ -62,11 +62,11 @@ function createRoom(minLen, maxLen, region) {
     let dimX = Math.floor(Math.random() * (maxLen - minLen + 1)) + minLen;
     let dimY = Math.floor(Math.random() * (maxLen - minLen + 1)) + minLen;
 
-    let roomProp = {
-        "dimX": dimX,
-        "dimY": dimY,
-        "region": region
-    }
+    let roomProp = '{ \
+                "dimX": ' + dimX + ', \
+                "dimY": ' + dimY + ', \
+                "region": ' + region + ' \
+            }';
     console.log("roomProp: ", roomProp)
     return new Room(roomProp);
 }
@@ -76,7 +76,6 @@ function validateRoom(room, roomsArray) {
     let dimY = room.dimY;
     let posX = room.posX;
     let posY = room.posY;
-    let roomsArray = roomsArray;
 
     let validX = false;
     let validY = false;
@@ -105,4 +104,6 @@ function randomMapPosition(rows, columns) {
     return [posX, posY];
 }
 
-initialiseRooms(10, 20)
+const rows = 10;
+const columns = 20;
+initialiseRooms(rows, columns)
