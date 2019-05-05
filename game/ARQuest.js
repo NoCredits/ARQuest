@@ -6,6 +6,7 @@ var myVar;
 
 $( document ).ready(function() {
 
+	createRandomItems();
 	createHeros();
 	createFoes();
 
@@ -23,7 +24,15 @@ function getMousePos(canvas, evt) {
     };
 }
 
-
+function copyInstance (original) {
+  var copied = Object.assign(
+    Object.create(
+      Object.getPrototypeOf(original)
+    ),
+    original
+  );
+  return copied;
+}
 
 function go(){
 

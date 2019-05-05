@@ -115,6 +115,10 @@ function getTileInfo(posX,posY){
         if (foes[i].posX==posX && foes[i].posY==posY) info+=foes[i].name+" ";
     }
 
+    for (i= 0, len = items.length; i < len; ++i) {
+        if (items[i].posX==posX && items[i].posY==posY) info+=items[i].name+" ";
+    }
+
     return info;
 }
 
@@ -183,24 +187,34 @@ function updateBoard(){
             }
         }
 
+        heroes[0].updateStats("hero0");
+        heroes[1].updateStats("hero1");
+        heroes[2].updateStats("hero2");
+        heroes[3].updateStats("hero3");
         //Draw heroes
-        for (i= 0, len = heroes.length; i < len; ++i) {
+        for (i= 0; i < heroes.length; i++) {
             heroes[i].draw(ctx);
+           // console.log("hero"+i)
+           // heroes[i].updateStats("hero"+i);
+
          }
         //Draw foes
-        for (i= 0, len = foes.length; i < len; ++i) {
-           foes[i].draw(ctx);
+        for (i= 0; i < foes.length; i++) {
+            foes[i].draw(ctx);
+        }
+        for (i= 0; i < items.length; i++) {
+            items[i].draw(ctx);
         }
 
         //heroes on the move
-        for (i= 0, len = heroes.length; i < len; ++i) {
+        for (i= 0; i < heroes.length; i++) {
             heroes[i].trackMovement();
             if (animateLoop>5){
-                        heroes[i].moveAnimate();
+                    heroes[i].moveAnimate();
              }
         }
         //foes on the move
-        for (i= 0, len = foes.length; i < len; ++i) {
+        for (i= 0; i < foes.length; i++) {
             foes[i].trackMovement();
             if (animateLoop>5){
                 foes[i].moveAnimate();
@@ -241,5 +255,7 @@ function setUpBoard(){
     images[6].src="images/bears.png";   
     images[7]=new Image();
     images[7].src="images/werewolves.png";   
+    images[8]=new Image();
+    images[8].src="images/items.png";   
 
 }

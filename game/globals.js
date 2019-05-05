@@ -19,6 +19,7 @@ var mousePos;
 
 var heroes=new Array;
 var foes=new Array;
+var items=new Array;
 
 var NOWHERE=0;
 var MOVENORTH=100;

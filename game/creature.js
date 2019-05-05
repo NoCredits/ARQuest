@@ -20,9 +20,18 @@ class Creature{
         this.img=obj.img;
         this.imgAnimation=0;
         this.imgDirection=0;
-       
+        this.inventory=new Array;
 
     }
+
+    addItem(item){
+        var newItem=copyInstance(item);
+        newItem.posX=this.inventory.length;
+        newItem.posY=0;
+        //console.log("LEN "+this.inventory.length+" "+item.posX )
+        this.inventory.push(newItem);
+    }
+
     set name(name){
         this._name=name;
     }
@@ -65,7 +74,7 @@ class Creature{
         if (this.hasTurn){
             activeCreatureX=screenPosX;
             activeCreatureY=screenPosY;
-            console.log(this.posX,this.posY)
+           //console.log(this.posX,this.posY)
         }
 
         ctx.drawImage(images[this.img],
@@ -93,6 +102,8 @@ class Creature{
         
         if (this.moveCycle>=50){ 
             this.stopMove();
+
+    
         }
     }
 
@@ -124,7 +135,18 @@ class Creature{
 
         this.incX=0;
         this.incY=0;
+        
 
+// item found, so add it
+        for (var i= 0; i < items.length; i++) {
+            if (items[i].posX==this.posX && items[i].posY==this.posY){
+                this.addItem(items[i]) ;
+                //
+                items[i].posX=-1; //temporary. item has to be deleted
+              }
+       }
+
+        
         if ( Math.floor(Math.random() * 2)==1) this.randomMove();
 
     }

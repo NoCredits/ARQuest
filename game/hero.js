@@ -21,7 +21,30 @@ class Hero extends Creature{
         stats+="<br />hp: "+this.hitpoints;
         stats+="<br />main: "+this.mainHand.name+" ("+this.mainHand.type+")";
         $("#"+id).html(stats); 
+       
     }
+
+    updateStats(id){
+        var stats="<h3>"+this.name+"</h3>";
+        stats+="class: "+this.class;
+        stats+="<br />race: "+this.race;
+        stats+="<br />hp: "+this.hitpoints;
+        stats+="<br />main: "+this.mainHand.name+" ("+this.mainHand.type+")";
+        $("#"+id).html(stats); 
+        var cv="canvas"+id;
+        var canvas = document.getElementById(cv);
+        canvas.width = 250;
+        canvas.height = 50;
+    
+        $("#"+cv).css('border', 'solid 1px red');
+        var ctx = canvas.getContext("2d"); 
+
+        for (i=0;i<this.inventory.length;i++){
+
+        //    console.log(this.inventory[i].posX);
+            this.inventory[i].draw(ctx);
+        }
+    }    
 }
 
 class Wizard extends Hero{
@@ -75,10 +98,6 @@ function createHeros(){
     
     $("#hero").html(heroes[0].name+" ("+heroes[0].race+") "+" strikes with  "+main.name+ " ("+main.type+") "+heroes[0].imgX+heroes[0].imgX);
 
-    heroes[0].showStats("hero0")
-    heroes[1].showStats("hero1")
-    heroes[2].showStats("hero2")
-    heroes[3].showStats("hero3")
 
 }
 
