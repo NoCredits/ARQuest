@@ -16,20 +16,7 @@ class Room {
     }
 }
 
-function createArray(rows, columns) {
-    let array = [];
-    for (var i = 0; i < rows; i++) {
-        array.push([]);
-        for (var j = 0; j < columns; j++) {
-            array[i].push(1);
-        }
-    }
-    return array;
-}
-
-function createBoard(rows, columns) {
-    let board = createArray(rows, columns);
-
+function initialiseRooms(rows, columns) {
     // Board Logic
     let roomMaxCount = 200;
     let roomWallMinLength = 3;
@@ -67,7 +54,7 @@ function createBoard(rows, columns) {
 
     // remove some dead-ends (open tile that is closed on three sides)
 
-    return board;
+    return roomsArray;
 };
 
 function createRoom(minLen, maxLen, region) {
@@ -117,8 +104,4 @@ function randomMapPosition(rows, columns) {
     let posY = Math.floor(Math.random() * columns);
 
     return [posX, posY];
-}
-
-function checkOverlaps(newRoom, newPos, board) {
-    // add logic to calculate room distances
 }
