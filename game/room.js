@@ -1,7 +1,7 @@
 class Room {
     constructor(json) {
         var obj = JSON.parse(json);
-        if (!obj.hasOwnProperty('region')) obj.region = 0;
+        if (!obj.hasOwnProperty('region')) obj.region = -1;
 
         // posX and posY are the coordinates for the upper left corner
         this.posX = obj.posX;
@@ -36,24 +36,27 @@ function createBoard(rows, columns) {
     let roomWallMaxLength = 10;
     let extraConnectorChance = 10;
 
+    let roomsArray = [];
+
     // Up, Down, Left, Right
     let directions = [[-1, 0], [1, 0], [0, -1], [0, 1]];
 
     // Add X scattered rooms, if a room overlaps another room it is discarded
     for (var i = 0; i < roomMaxCount; i++) {
+        // generate a room
         newRoom = createRoom(roomWallMinLength, roomWallMaxLength, i);
+
+        // add a random map position
         newPos = randomMapPosition;
-        // should we add the rooms directly on to the board? Or have room objects and store them in an array?
+        newRoom.posX = newPos[0];
+        newRoom.posY = newPos[1];
 
-        let overlaps = false;
-        // use newPos as top left corner of newRoom
-        // if newRooms distance to an existing room would be <= 0 then discard it
+        // validate the new room before adding it
+        newRoomValid = validateRoom(newRoom, roomsArray)
 
-
-
+        // and lastly add the new room to roomsArray if it is a valid room
+        if (newRoomValid = true) { roomsArray.push(newRoom); }
     }
-
-    // loop through the rooms and discard the room if it overlaps with an earlier one
 
     // create mazes in anything unused, but do not let it touch any rooms
 
@@ -78,24 +81,36 @@ function createRoom(minLen, maxLen, region) {
         "dimY": dimY,
         "region": region,
     }
-
-    // what about position?
-
     return new Room(roomProp);
-
-
-    // leftovers from when createRoom updated the board directly -- remove?
-    //
-    //let array = [];
-    //for (var i = 0; i < dimX; i++) {
-    //    array.push([]);
-    //    for (var j = 0; j < dimY; j++) {
-    //        array[i].push(0);
-    //    }
-    //}
-    //return array;
-
 }
+
+function validateRoom(room, roomsArray) {
+    let dimX = room.dimX;
+    let dimY = room.dimY;
+    let posX = room.posX;
+    let posY = room.posY;
+    let roomsArray = roomsArray;
+
+    let validX = false;
+    let validY = false;
+    let validPos = true;
+
+    // is posX + dimX less than #rows?
+    // is posY + dimY less than #columns?
+    if (dimX + posX <= rows) { validX = true }
+    if (dimY + posY <= columns) { validY = true }
+
+    // is the room at least 1 tile away from existing rooms?
+    for (var i = posX; i < posX + dimX + 2; i++) {
+        for (var j = posY; j < posY + dimY + 2; j++) {
+            if (roomsArray[i][j].hasOwnProperty('region')) { validPos = false }
+        }
+    }
+
+    return validX && validY && validPos;
+
+};
+
 
 function randomMapPosition(rows, columns) {
     let posX = Math.floor(Math.random() * rows);
