@@ -52,7 +52,10 @@ function initialiseRooms(rows, columns) {
         newRoomValid = validateRoom(newRoom, map)
 
         // and lastly add the new room to roomsArray if it is a valid room
-        if (newRoomValid = true) { roomsArray.push(newRoom); }
+
+        //        if (newRoomValid = true) { roomsArray.push(newRoom); }
+                if (newRoomValid == true) { roomsArray.push(newRoom); }  
+
     }
     console.log("map that was used: ", map);
 
