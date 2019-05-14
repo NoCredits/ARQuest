@@ -54,7 +54,7 @@ function initialiseRooms(rows, columns) {
         // and lastly add the new room to roomsArray if it is a valid room
 
         //        if (newRoomValid = true) { roomsArray.push(newRoom); }
-                if (newRoomValid == true) { roomsArray.push(newRoom); }  
+        if (newRoomValid == true) { roomsArray.push(newRoom); }
 
     }
     console.log("map that was used: ", map);
@@ -129,6 +129,6 @@ function randomMapPosition(rows, columns) {
     return [posX, posY];
 }
 
-const rows = 100;
-const columns = 200;
-initialiseRooms(rows, columns)
+// const rows = 100;
+// const columns = 200;
+// initialiseRooms(rows, columns)
