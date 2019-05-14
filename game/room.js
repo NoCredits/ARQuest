@@ -57,7 +57,7 @@ function initialiseRooms(rows, columns) {
         if (newRoomValid == true) { roomsArray.push(newRoom); }
 
     }
-    console.log("map that was used: ", map);
+    //console.log("map that was used: ", map);
 
     // create mazes in anything unused, but do not let it touch any rooms
 
@@ -67,13 +67,14 @@ function initialiseRooms(rows, columns) {
     // discard all other connectors for that room, except with a small chance of persisting(=avoid perfect maze)
 
     // remove some dead-ends (open tile that is closed on three sides)
-    console.log("lengoth of roomsAray to be returned: ", roomsArray.length);
-    console.log("roomsAray to be returned: ", roomsArray);
-    console.log("grab some random rooms#1: ", roomsArray[25]);
-    console.log("grab some random rooms#2: ", roomsArray[75]);
-    console.log("grab some random rooms#3: ", roomsArray[125]);
-    console.log("grab some random rooms#4: ", roomsArray[1250]);
-    console.log("grab some random rooms#5: ", roomsArray[12500]);
+
+    //console.log("lengoth of roomsAray to be returned: ", roomsArray.length);
+    //console.log("roomsAray to be returned: ", roomsArray);
+    //console.log("grab some random rooms#1: ", roomsArray[25]);
+    //console.log("grab some random rooms#2: ", roomsArray[75]);
+    //console.log("grab some random rooms#3: ", roomsArray[125]);
+    //console.log("grab some random rooms#4: ", roomsArray[1250]);
+    //console.log("grab some random rooms#5: ", roomsArray[12500]);
     return roomsArray;
 };
 
