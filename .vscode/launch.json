@@ -9,6 +9,12 @@
             "type": "chrome",
             "request": "launch",
             "file": "${workspaceFolder}/game/ARQuest.html"
+        },
+        {
+            "name": "Launch current file",
+            "type": "node",
+            "request": "launch",
+            "program": "${file}"
         }
     ]
 }
